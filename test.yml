@@ -1,9 +1,0 @@
-services:
-  pocketbase:
-    build: .
-    container_name: pocketbase-local
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./pb_data:/pb/pb_data
-    command: ["/pb/pocketbase", "serve", "--http=0.0.0.0:8080"]

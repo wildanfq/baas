@@ -1,14 +1,10 @@
 services:
   pocketbase:
     image: ghcr.io/wildanfq/baas:latest
-    container_name: baas
+    container_name: pocketbase
     restart: always
     volumes:
       - ./pb_data:/pb/pb_data
-      - ./pb_migrations:/pb/pb_migrations
-      - ./pb_hooks:/pb/pb_hooks
-    environment:
-      - PB_ENCRYPTION_KEY=your-secret-key-here
     networks:
       - internal
     command: ["/pb/pocketbase", "serve", "--http=0.0.0.0:8080"]
@@ -31,7 +27,6 @@ services:
 
 networks:
   internal:
-    driver: bridge
 
 volumes:
   caddy_data:
