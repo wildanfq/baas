@@ -1,0 +1,38 @@
+services:
+  pocketbase:
+    image: ghcr.io/wildanfq/pocketbase-app:latest
+    container_name: pocketbase
+    restart: always
+    volumes:
+      - ./pb_data:/pb/pb_data
+      - ./pb_migrations:/pb/pb_migrations
+      - ./pb_hooks:/pb/pb_hooks
+    environment:
+      - PB_ENCRYPTION_KEY=your-secret-key-here
+    networks:
+      - internal
+    command: ["/pb/pocketbase", "serve", "--http=0.0.0.0:8080"]
+
+  caddy:
+    image: caddy:alpine
+    container_name: caddy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - internal
+    depends_on:
+      - pocketbase
+
+networks:
+  internal:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:
