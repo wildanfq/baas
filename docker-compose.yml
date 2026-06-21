@@ -1,7 +1,7 @@
 services:
   pocketbase:
-    image: ghcr.io/wildanfq/pocketbase-app:latest
-    container_name: pocketbase
+    image: ghcr.io/wildanfq/baas:latest
+    container_name: baas
     restart: always
     volumes:
       - ./pb_data:/pb/pb_data
