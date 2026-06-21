@@ -1,32 +1,47 @@
 services:
   pocketbase:
-    image: ghcr.io/wildanfq/baas:latest
+    image: ghcr.io/${GITHUB_REPOSITORY:-wildanfq/baas}:latest
     container_name: pocketbase
-    restart: always
+    restart: unless-stopped
+    command:
+      - /pb/pocketbase
+      - serve
+      - --http=0.0.0.0:8080
     volumes:
       - ./pb_data:/pb/pb_data
     networks:
-      - internal
-    command: ["/pb/pocketbase", "serve", "--http=0.0.0.0:8080"]
+      - baas-network
+
+  rustfs:
+    image: rustfs/rustfs:latest
+    container_name: rustfs
+    restart: unless-stopped
+    volumes:
+      - ./rustfs_data:/data
+    networks:
+      - baas-network
 
   caddy:
-    image: caddy:alpine
+    image: caddy:2-alpine
     container_name: caddy
-    restart: always
+    restart: unless-stopped
+    depends_on:
+      - pocketbase
+      - rustfs
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      - internal
-    depends_on:
-      - pocketbase
+      - baas-network
 
 networks:
-  internal:
+  baas-network:
+    name: baas-network
+    driver: bridge
 
 volumes:
   caddy_data:

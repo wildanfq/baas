@@ -1,3 +1,22 @@
-10.64.142.2 {
-    reverse_proxy pocketbase:8080
+:80 {
+
+    handle /api/* {
+        reverse_proxy pocketbase:8080
+    }
+
+    handle /_/* {
+        reverse_proxy pocketbase:8080
+    }
+
+    handle_path /storage/* {
+        reverse_proxy rustfs:9000
+    }
+
+    handle_path /console/* {
+        reverse_proxy rustfs:9001
+    }
+
+    handle {
+        reverse_proxy pocketbase:8080
+    }
 }
