@@ -1,4 +1,4 @@
-# Deploy Backend as a Service (BaaS) dengan PocketBase, GitHub Actions, Self-Hosted Runner, GHCR, Docker, Caddy, dan RustFS di Google Cloud VPS
+# Deploy Backend as a Service (BaaS) dengan PocketBase, GitHub Actions, Self-Hosted Runner, GHCR, Docker, Caddy, dan RustFS di GCP
 
 Proyek Backend as a Service (BaaS) ini menggunakan **PocketBase** sebagai backend utama yang menangani autentikasi pengguna, manajemen database, serta penyediaan REST API. Seluruh layanan dijalankan menggunakan **Docker** di atas Google Cloud VPS untuk memastikan lingkungan yang konsisten, portabel, dan mudah dikelola.
 
